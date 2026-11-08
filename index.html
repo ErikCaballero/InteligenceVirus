@@ -1,381 +1,156 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
+<html lang="es"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Test SINF · Redes y Linux</title>
+<title>Test Docker · DAW</title>
 <style>
-:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
---bg:#f5f6fa;--card:#fff;--text:#1b1f2a;--muted:#667085;--line:#dfe3ec;--accent:#1f5fd6;--ok:#1a8f4c;--okbg:#e4f6ec;--ko:#c8302f;--kobg:#fdebea}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--bg:#12141a;--card:#1c1f28;--text:#eef0f6;--muted:#9aa3b5;--line:#2e3340;--accent:#6f9bff;--ok:#4cd38a;--okbg:#173325;--ko:#ff7b78;--kobg:#3a1b1b}}
-:root[data-theme="dark"]{color-scheme:dark;--bg:#12141a;--card:#1c1f28;--text:#eef0f6;--muted:#9aa3b5;--line:#2e3340;--accent:#6f9bff;--ok:#4cd38a;--okbg:#173325;--ko:#ff7b78;--kobg:#3a1b1b}
-*{box-sizing:border-box}
+:root{--bg:#f6f8fb;--card:#fff;--tx:#1b2430;--mu:#5d6b7c;--bd:#d8dfe8;--ac:#0b6bcb;--ok:#137a3d;--okb:#e3f5ea;--ko:#b3261e;--kob:#fde8e6;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#10161d;--card:#18212b;--tx:#e8edf3;--mu:#9aa8b8;--bd:#2c3a49;--ac:#5aa9f5;--ok:#5fd18a;--okb:#16301f;--ko:#ff8a80;--kob:#3a1c1a;color-scheme:dark}}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
-body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 main{max-width:720px;margin:0 auto;padding:20px 16px 40px}
-h1{font-size:1.6rem;margin:.2em 0}
-.sub{color:var(--muted);margin:0 0 20px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin-bottom:16px}
+h1{font-size:1.5rem;margin:0 0 4px}.sub{color:var(--mu);margin:0 0 18px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:18px}
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 16px}
-.chip{border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer;user-select:none;font-size:.9rem;background:var(--bg)}
-.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
-.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-select,button{font:inherit}
-select{padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--text)}
-.btn{background:var(--accent);color:#fff;border:0;border-radius:10px;padding:11px 20px;cursor:pointer;font-weight:600}
-.btn.sec{background:transparent;color:var(--accent);border:1px solid var(--accent)}
-.btn:disabled{opacity:.5;cursor:not-allowed}
-.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:14px}
-.bar i{display:block;height:100%;background:var(--accent);transition:width .3s}
-.meta{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem;margin-bottom:6px}
-.q{font-size:1.15rem;font-weight:600;margin:6px 0 16px}
-.opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--text);border:1.5px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:10px;cursor:pointer}
-.opt:hover:not(:disabled){border-color:var(--accent)}
-.opt.ok{border-color:var(--ok);background:var(--okbg)}
-.opt.ko{border-color:var(--ko);background:var(--kobg)}
-.opt:disabled{cursor:default;color:var(--text)}
-.exp{margin:14px 0;padding:12px 14px;border-radius:10px;background:var(--bg);border-left:4px solid var(--accent);font-size:.95rem}
-.big{font-size:2.6rem;font-weight:700;margin:0}
-.tb{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);font-size:.95rem}
-.rev{padding:12px 0;border-bottom:1px solid var(--line);font-size:.95rem}
-.rev b{display:block}
-.good{color:var(--ok)}
-input{font:1rem ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--card);color:var(--text)}
-input.ok{border-color:var(--ok);background:var(--okbg)}
-input.ko{border-color:var(--ko);background:var(--kobg)}
-.cv{border-color:var(--accent)}
-</style>
-</head>
-<body>
-<main>
-<h1>Test SINF · Redes y Linux</h1>
-<p class="sub">Sistemas Informáticos · DAW</p>
-<div id="app"></div>
+.chip{border:1px solid var(--bd);background:var(--card);color:var(--tx);border-radius:99px;padding:6px 14px;cursor:pointer;font:inherit;font-size:.9rem}
+.chip.on{background:var(--ac);border-color:var(--ac);color:#fff}
+button.main{background:var(--ac);color:#fff;border:0;border-radius:10px;padding:11px 20px;font:inherit;font-weight:600;cursor:pointer}
+button.main:disabled{opacity:.45;cursor:not-allowed}
+.bar{height:6px;background:var(--bd);border-radius:9px;overflow:hidden;margin:6px 0 16px}.bar i{display:block;height:100%;background:var(--ac)}
+.meta{display:flex;justify-content:space-between;color:var(--mu);font-size:.85rem}
+.q{font-size:1.1rem;font-weight:600;margin:6px 0 14px}
+.opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--tx);border:2px solid var(--bd);border-radius:10px;padding:11px 14px;margin:8px 0;font:inherit;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--ac)}.opt.sel{border-color:var(--ac)}
+.opt.ok{border-color:var(--ok);background:var(--okb)}.opt.ko{border-color:var(--ko);background:var(--kob)}
+.opt:disabled{cursor:default}
+.fb{margin-top:14px;padding:12px 14px;border-radius:10px;border:1px solid}
+.fb.ok{background:var(--okb);border-color:var(--ok)}.fb.ko{background:var(--kob);border-color:var(--ko)}
+.fb b{display:block;margin-bottom:4px}
+code{background:rgba(127,127,127,.18);padding:1px 5px;border-radius:5px;font-size:.9em;word-break:break-word}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.score{font-size:2.4rem;font-weight:700}
+</style></head><body><main>
+<h1>🐳 Test de Docker</h1>
+<p class="sub">Teoría, comandos, Dockerfile, persistencia y redes</p>
+<div id="app" class="card"></div>
 </main>
 <script>
-const T=["Redes: introducción","Topologías y Wi-Fi","Direccionamiento IP","Routers y comandos","Linux: primeros pasos","Linux: buscar y filtrar","Linux: administración","Linux: usuarios y permisos"];
-// [tema, pregunta, correcta, [incorrectas], explicación]
-const RAW=[
-[0,"¿Qué elemento de un sistema de comunicación son las reglas que gobiernan la comunicación?","El protocolo",["El medio","El mensaje","El receptor"],"El protocolo define las reglas; el medio es el canal físico de transmisión."],
-[0,"¿Qué tipo de señales emplean los sistemas digitales?","Señales discretas (0s y 1s)",["Señales continuas que varían en amplitud","Solo ondas de radio AM/FM","Una mezcla de analógico y digital"],"Las señales discretas dan más precisión y resistencia al ruido."],
-[0,"¿En qué capa del modelo OSI se realiza el enrutamiento y el direccionamiento lógico (IP)?","Capa 3: Red",["Capa 2: Enlace de datos","Capa 4: Transporte","Capa 7: Aplicación"],"IP trabaja en la capa de red, igual que los routers."],
-[0,"¿Cuántas capas tiene el modelo TCP/IP, frente a las 7 de OSI?","4",["3","5","6"],"Aplicación, Transporte, Internet y Acceso a red."],
-[0,"¿Qué protocolos pertenecen a la capa de transporte?","TCP y UDP",["HTTP y FTP","IP e ICMP","Ethernet y PPP"],"HTTP/FTP son de aplicación; IP/ICMP de Internet; Ethernet/PPP de acceso a red."],
-[1,"¿Qué topología conecta todos los nodos a un dispositivo central y depende de él?","Estrella",["Bus","Anillo","Malla"],"Facilita la administración, pero si falla el nodo central cae la red."],
-[1,"¿Cuál es la principal desventaja de la topología en malla?","Es compleja y costosa",["Un solo fallo la deja inutilizada","Tiene poca redundancia","Todos comparten un único cable"],"Ofrece alta redundancia y tolerancia a fallos, pero requiere muchas conexiones."],
-[1,"¿En qué capa OSI opera un switch y qué tabla crea?","Capa 2; tabla de direcciones MAC",["Capa 3; tabla de enrutamiento","Capa 1; tabla ARP","Capa 4; tabla de puertos"],"Los switches conectan dispositivos de una misma red usando direcciones MAC."],
-[1,"¿Cuál es el protocolo de seguridad Wi-Fi más reciente y seguro?","WPA3",["WEP","WPA2","Filtrado de MAC"],"WEP está obsoleto, WPA2 es el más usado y WPA3 el más reciente."],
-[1,"¿A qué generación Wi-Fi corresponde el estándar 802.11ax?","Wi-Fi 6",["Wi-Fi 4","Wi-Fi 5","Wi-Fi 7"],"802.11n = Wi-Fi 4, ac = 5, ax = 6, be = 7."],
-[2,"¿Cuántos bits tiene una dirección IPv4 y qué valores puede tomar cada octeto?","32 bits; de 0 a 255",["32 bits; de 0 a 256","128 bits; de 0 a 255","16 bits; de 0 a 255"],"Cuatro octetos de 8 bits separados por puntos."],
-[2,"¿Qué rango y máscara tiene la clase C?","192.0.0.0–223.255.255.255 con 255.255.255.0 (/24)",["128.0.0.0–191.255.255.255 con /16","1.0.0.0–126.255.255.255 con /8","224.0.0.0–239.255.255.255 con /24"],"La clase C empieza por los bits 110 y admite 254 hosts por red."],
-[2,"En la red 192.168.1.0/24, ¿cuál es la dirección de broadcast?","192.168.1.255",["192.168.1.0","192.168.1.1","192.168.0.255"],"En broadcast todos los bits de host valen 1; en la dirección de red valen 0."],
-[2,"¿Cuál de estas direcciones NO es privada?","172.32.0.1",["10.20.30.40","172.16.5.4","192.168.100.7"],"El rango privado de clase B va de 172.16.0.0 a 172.31.255.255."],
-[2,"Para dividir 192.168.1.0/24 en 4 subredes, ¿qué máscara se usa?","255.255.255.192 (/26)",["255.255.255.128 (/25)","255.255.255.224 (/27)","255.255.192.0 (/18)"],"Se prestan 2 bits de host: 2² = 4 subredes."],
-[3,"¿Qué comando muestra la ruta que siguen los paquetes hacia un destino?","tracert",["ping","netstat","ipconfig"],"ping comprueba conectividad; tracert muestra los saltos."],
-[3,"¿Qué comando consulta servidores DNS para obtener registros de dominio?","nslookup",["arp","route","netsh"],"nslookup resuelve nombres de dominio."],
-[3,"¿Qué hace arp -a?","Muestra la asociación entre direcciones IP y MAC",["Muestra la tabla de enrutamiento","Envía paquetes ICMP","Lista las conexiones de red activas"],"La tabla de enrutamiento se ve con route; las conexiones con netstat."],
-[3,"¿Cuál NO es un dato que contenga una tabla de enrutamiento?","La dirección MAC del cliente",["Máscara de subred","Gateway o siguiente salto","Métrica (coste de la ruta)"],"Contiene red de destino, máscara, siguiente salto, interfaz de salida y métrica."],
-[3,"¿Qué tipo de router conecta la red interna con Internet y aplica políticas de seguridad?","Router de borde",["Router core","Router de distribución","Switch de capa 2"],"Los core forman la columna vertebral de grandes redes."],
-[4,"¿Qué hace ls -a?","Muestra también los archivos ocultos",["Lista en formato largo","Muestra el directorio actual","Lista de forma recursiva"],"ls -l es formato largo y ls -R recursivo."],
-[4,"¿Qué hace cd ..?","Sube al directorio padre",["Va al directorio personal","Va a la raíz /","Muestra el directorio actual"],"cd ~ va al directorio personal; cd / a la raíz."],
-[4,"¿Por qué falla rmdir backup si el directorio contiene archivos?","Porque rmdir solo elimina directorios vacíos",["Porque hace falta sudo","Porque backup es un archivo oculto","Porque rmdir solo borra archivos"],"Hay que eliminar primero el contenido."],
-[4,"¿Qué diferencia hay entre > y >>?","> sobrescribe el archivo y >> añade al final",[">> sobrescribe y > añade al final","Ninguna, son equivalentes","> crea directorios y >> crea archivos"],"> puede destruir el contenido previo."],
-[4,"¿Qué comando permite renombrar un archivo?","mv",["cp","touch","cat"],"mv mueve o renombra; cp copia."],
-[5,"¿Qué comando muestra las 4 últimas líneas de servidor.log?","tail -n 4 servidor.log",["head -n 4 servidor.log","wc -l servidor.log","grep 4 servidor.log"],"head muestra el inicio; tail el final."],
-[5,"¿Cómo se cuentan las líneas con INFO combinando comandos?","grep INFO servidor.log | wc -l",["wc -l | grep INFO","grep -v INFO servidor.log","find INFO | sort"],"La tubería pasa la salida de grep a wc -l."],
-[5,"¿Qué hace grep -i info servidor.log?","Busca info sin distinguir mayúsculas de minúsculas",["Muestra solo la primera coincidencia","Invierte la búsqueda","Muestra el número de línea"],"-n muestra el número de línea y -v invierte la búsqueda."],
-[5,"¿Qué comando busca desde proyecto todos los archivos que terminan en .js?","find proyecto -name \"*.js\"",["grep proyecto *.js","ls -js proyecto","find *.js -type proyecto"],"find busca archivos y directorios; grep busca texto dentro de archivos."],
-[5,"¿Qué limitación tiene uniq?","Solo elimina repeticiones consecutivas, por eso se usa tras sort",["Solo funciona con números","Ordena alfabéticamente","Cuenta las palabras de un archivo"],"sort | uniq elimina duplicados aunque no estén seguidos."],
-[6,"¿Qué diferencia hay entre whoami e id?","whoami da solo el usuario; id añade UID, GID y grupos",["Son idénticos","id muestra los procesos del usuario","whoami muestra los grupos e id solo el nombre"],"id muestra UID, GID principal y todos los grupos."],
-[6,"En -rw-r--r-- , ¿quién puede escribir en el archivo?","Solo el propietario",["Propietario y grupo","Todos los usuarios","Nadie"],"Propietario rw-, grupo r--, otros r--."],
-[6,"¿Qué permisos representa 755?","rwxr-xr-x",["rw-r--r--","rwxrwxrwx","rwx------"],"7 = rwx (4+2+1) y 5 = r-x (4+1)."],
-[6,"¿Qué comando muestra la memoria RAM total y disponible?","free -h",["df -h","du -sh","uptime"],"df muestra disco; du, el tamaño de un directorio."],
-[6,"¿Por qué no conviene asignar 777 a todos los archivos «para que funcione»?","Cualquier usuario podría modificarlos o ejecutarlos",["Porque impide leerlos","Porque Linux lo ignora","Porque borra al propietario"],"Es un grave problema de seguridad en un servidor web."],
-[7,"¿Qué hace sudo usermod -aG webdev webadmin?","Añade webadmin al grupo webdev sin quitarle sus otros grupos",["Crea el grupo webdev","Cambia el grupo principal y borra los demás","Hace a webadmin propietario de webdev"],"-a (append) evita perder los grupos actuales."],
-[7,"¿Qué permite el permiso w sobre un directorio?","Crear y eliminar entradas",["Listar sus nombres","Entrar en él","Ejecutarlo como script"],"r lista nombres, w crea/elimina entradas y x permite entrar."],
-[7,"Tras chmod 750 /srv/proyecto-web (grupo webdev), ¿qué no puede hacer desarrollador?","Crear archivos nuevos en el directorio",["Listar su contenido","Entrar en el directorio","Leer archivos existentes"],"750 = rwxr-x---: el grupo conserva r-x pero pierde w."],
-[7,"¿Qué comando cambia propietario y grupo de un directorio y su contenido?","sudo chown -R webadmin:webdev /srv/proyecto-web",["sudo chmod -R webadmin:webdev /srv/proyecto-web","sudo adduser webadmin:webdev /srv/proyecto-web","sudo chgrp webadmin /srv/proyecto-web"],"chown cambia propietario:grupo; chmod cambia permisos."],
-[7,"Con permisos 770 en un directorio, ¿quién tiene acceso?","Propietario y grupo; los otros usuarios, ninguno",["Solo el propietario","Todos los usuarios","Grupo y otros, pero no el propietario"],"7 = rwx para propietario y grupo; 0 = nada para otros."],
-[0,"¿Qué elemento origina y transmite la información?","El emisor",["El receptor","El medio","El protocolo"],"El emisor origina el mensaje."],
-[0,"¿Qué ejemplo es un sistema de comunicación analógico?","La radio AM/FM",["Una videollamada","Un correo electrónico","Una transferencia FTP"],"Usa señales continuas."],
-[0,"¿Qué es una red informática?","Dispositivos interconectados que comparten recursos e información",["Un ordenador con varios usuarios","Un cable de fibra óptica","Un programa de mensajería"],"Siguen reglas definidas por protocolos."],
-[0,"¿Qué clasificación de redes se basa en el alcance?","LAN, MAN y WAN",["Bus, estrella y malla","Cliente-servidor y P2P","TCP, UDP e IP"],"Local, metropolitana y extensa."],
-[0,"¿Qué organización desarrolló el modelo OSI?","La ISO",["El IEEE","La IETF","Cisco"],"OSI = Open Systems Interconnection."],
-[0,"¿Qué capa OSI traduce, comprime y cifra datos?","Presentación (6)",["Sesión (5)","Aplicación (7)","Transporte (4)"],"Es la capa 6."],
-[0,"¿Qué capa OSI gestiona las sesiones entre aplicaciones?","Sesión (5)",["Presentación (6)","Red (3)","Física (1)"],"Es la capa 5."],
-[0,"¿Qué capa OSI transmite bits a través del medio físico?","Física (1)",["Enlace de datos (2)","Red (3)","Transporte (4)"],"Es la capa 1."],
-[1,"¿Qué topología comparte un único cable de comunicación?","Bus",["Estrella","Anillo","Malla"],"Simple y económica, pero vulnerable a fallos."],
-[1,"¿Qué topología forma un circuito cerrado?","Anillo",["Bus","Estrella","Malla"],"Es vulnerable a cortes."],
-[1,"¿Qué caracteriza a la conexión punto a punto?","Enlace directo entre dos nodos con ancho de banda dedicado",["Un canal compartido por varios dispositivos","Todos pasan por un nodo central","Solo funciona con Wi-Fi"],"Ideal para enlaces críticos."],
-[1,"¿Qué caracteriza al modo multipunto?","Un canal compartido por varios dispositivos",["Ancho de banda dedicado","Conexión solo entre dos nodos","Mayor coste de implementación"],"Menor coste, pero ancho de banda compartido."],
-[1,"¿Cuál es un tipo de cableado de red?","Par trenzado (UTP/STP)",["SSID","WPA2","Switch"],"También existen fibra óptica y coaxial."],
-[1,"¿Cuál es una desventaja de las redes inalámbricas?","Mayor vulnerabilidad a ataques",["Menor movilidad","Peor escalabilidad","Mayor coste de instalación"],"También menor velocidad e interferencias."],
-[1,"¿Qué es un ataque Evil Twin?","Una red falsa que imita a una legítima",["Un ataque de fuerza bruta","Un cifrado débil","Un filtrado de MAC"],"Engaña al usuario con una red falsa."],
-[1,"¿Cuál es una buena práctica de seguridad Wi-Fi?","Cambiar las contraseñas predeterminadas",["Usar WEP","Compartir la clave con todos","Desactivar el cifrado"],"WEP es obsoleto y vulnerable."],
-[2,"¿Qué es el identificador de host en una IP?","La parte que identifica al dispositivo dentro de la red",["La parte que identifica la red","La máscara de subred","La puerta de enlace"],"La IP se divide en Network ID y Host ID."],
-[2,"¿Cuál es la máscara de la clase A?","255.0.0.0 (/8)",["255.255.0.0 (/16)","255.255.255.0 (/24)","255.255.255.192 (/26)"],"Admite 16.777.214 hosts por red."],
-[2,"¿Qué clase usa el rango 224.0.0.0–239.255.255.255?","Clase D (multicast)",["Clase A","Clase C","Clase E"],"Se usa para transmisiones grupales."],
-[2,"¿Cuál es el rango privado de clase A?","10.0.0.0 a 10.255.255.255",["11.0.0.0 a 11.255.255.255","172.16.0.0 a 172.31.255.255","192.168.0.0 a 192.168.255.255"],"Es la red 10.0.0.0/8."],
-[2,"¿Qué dirección es la de loopback?","127.0.0.1",["192.168.0.1","255.255.255.255","0.0.0.0"],"Se usa para comunicación interna (localhost)."],
-[2,"En la dirección de red, ¿cómo son los bits de host?","Todos 0",["Todos 1","La mitad 0 y la mitad 1","Se ignoran"],"Ejemplo: 192.168.1.0/24."],
-[2,"¿Cuántos hosts por red admite la clase C?","254",["256","65.534","16.777.214"],"Se restan la dirección de red y la de broadcast."],
-[2,"¿Qué clase está reservada para investigación y no se usa en Internet?","Clase E",["Clase B","Clase D","Clase A"],"Sus direcciones empiezan por los bits 1111."],
-[3,"¿Qué comando verifica la conectividad enviando paquetes ICMP?","ping",["tracert","nslookup","arp"],"Ejemplo: ping 192.168.1.1."],
-[3,"¿Qué comando muestra la configuración de red del equipo en Windows?","ipconfig /all",["netstat -an","arp -a","route print"],"ipconfig muestra IP, máscara y gateway."],
-[3,"¿Qué muestra netstat -an?","Las conexiones de red activas",["La ruta hacia un destino","La caché ARP","Los registros DNS"],"La ruta se ve con tracert."],
-[3,"¿Qué comando muestra y modifica la tabla de enrutamiento local?","route",["nslookup","ping","netsh"],"route print muestra la tabla; route add añade rutas."],
-[3,"¿Qué combina un router doméstico además de enrutar?","Switch y punto de acceso Wi-Fi",["Solo un firewall","Un servidor DNS externo","Nada más"],"Está pensado para hogares y pequeñas oficinas."],
-[3,"¿Qué soportan los routers empresariales?","VPN y múltiples conexiones WAN",["Solo una conexión WAN","Solo Wi-Fi 4","Ninguna política de seguridad"],"Tienen más capacidad, interfaces y protocolos avanzados."],
-[3,"¿Qué router forma la columna vertebral de grandes redes?","Router core",["Router doméstico","Router de borde","Switch"],"Maneja grandes volúmenes de tráfico a alta velocidad."],
-[3,"¿Qué tipo de enrutamiento NO aparece entre los algoritmos vistos?","Aleatorio",["Estático","Dinámico","Híbrido"],"Se ven estático, dinámico e híbrido."],
-[4,"¿Qué comando muestra el directorio en el que te encuentras?","pwd",["whoami","hostname","uname -a"],"pwd = print working directory."],
-[4,"¿Qué muestra hostname?","El nombre del equipo",["El usuario actual","La versión del kernel","El directorio actual"],"whoami muestra el usuario."],
-[4,"¿Qué crea mkdir practica_linux?","Un directorio",["Un archivo vacío","Un enlace","Un usuario"],"touch crea archivos vacíos."],
-[4,"¿Qué hace touch documentos/apuntes.txt?","Crea un archivo vacío si no existe",["Borra el archivo","Lo copia","Lo abre en un editor"],"Crea el archivo sin contenido."],
-[4,"¿Qué hace ls -R?","Lista el contenido de forma recursiva",["Lista en orden inverso","Muestra archivos ocultos","Borra recursivamente"],"Muestra también los subdirectorios."],
-[4,"¿Qué representa / en Linux?","El directorio raíz",["El directorio personal","El directorio actual","El directorio padre"],"Es la base de todo el sistema de archivos."],
-[4,"¿Qué hace cp practicas/practica01.txt backup/?","Copia el archivo a backup",["Lo mueve","Lo renombra","Lo elimina"],"El original se conserva."],
-[4,"¿Qué comando muestra el contenido de un archivo en pantalla?","cat",["mkdir","pwd","mv"],"cat concatena y muestra archivos."],
-[5,"¿Qué comando muestra las 3 primeras líneas de servidor.log?","head -n 3 servidor.log",["tail -n 3 servidor.log","wc -l servidor.log","grep 3 servidor.log"],"head muestra el inicio."],
-[5,"¿Qué cuenta wc -l?","Las líneas",["Las palabras","Los bytes","Los archivos"],"wc -w cuenta palabras."],
-[5,"¿Qué hace grep -v ERROR servidor.log?","Muestra las líneas que NO contienen ERROR",["Solo las que contienen ERROR","Cuenta las líneas ERROR","Ordena el archivo"],"-v invierte la búsqueda."],
-[5,"¿Qué hace grep -n?","Muestra el número de línea de cada coincidencia",["Ignora mayúsculas","Invierte la búsqueda","Cuenta coincidencias"],"-i ignora mayúsculas."],
-[5,"¿Cómo guardas en errores.txt las líneas con ERROR?","grep ERROR servidor.log > errores.txt",["grep ERROR servidor.log | errores.txt","grep ERROR >> servidor.log","cat errores.txt > ERROR"],"> redirige la salida a un archivo."],
-[5,"¿Qué hace la tubería |?","Envía la salida de un comando a la entrada de otro",["Guarda la salida en un archivo","Añade texto al final de un archivo","Ejecuta en segundo plano"],"Permite encadenar comandos."],
-[5,"¿Qué comando consulta los comandos ejecutados anteriormente?","history",["find","less","sort"],"Se puede filtrar con grep."],
-[5,"¿Con qué tecla se sale de less?","q",["x","Esc dos veces","Ctrl+S"],"También se sale de top con q."],
-[6,"¿Qué muestra df -h?","El espacio en disco por partición",["La memoria RAM","Los procesos activos","El tiempo encendido"],"free -h muestra la memoria."],
-[6,"¿Qué hace du -sh ~/practica03?","Muestra cuánto ocupa el directorio",["Muestra el espacio libre del disco","Muestra la memoria libre","Elimina el directorio"],"du mide el uso de disco de archivos y directorios."],
-[6,"¿Qué muestra uptime?","Cuánto tiempo lleva encendida la máquina",["La memoria libre","Los usuarios y grupos","Los permisos de un archivo"],"También muestra la carga del sistema."],
-[6,"¿Qué hace sleep 300 &?","Lanza un proceso en segundo plano durante 300 segundos",["Apaga el equipo en 300 s","Bloquea la terminal 300 s","Elimina procesos"],"El & lo ejecuta en segundo plano."],
-[6,"¿Cómo se finaliza un proceso conociendo su PID?","kill PID",["ps PID","top PID","pgrep PID"],"pgrep solo busca procesos."],
-[6,"¿Qué hace chmod u+x publico.txt?","Da permiso de ejecución al propietario",["Quita escritura al grupo","Da lectura a otros","Cambia el propietario"],"u = propietario, +x = añadir ejecución."],
-[6,"¿Qué hace chmod go-r privado.txt?","Quita la lectura a grupo y otros",["Añade lectura a todos","Quita todo al propietario","Lo hace ejecutable"],"g = grupo, o = otros."],
-[6,"¿Qué permisos da chmod 600?","rw------- (solo el propietario lee y escribe)",["rw-r--r--","rwxr-xr-x","---rw----"],"Típico para archivos privados."],
-[7,"¿Qué hace sudo adduser webadmin?","Crea el usuario webadmin",["Crea el grupo webadmin","Cambia a webadmin","Elimina el usuario"],"Crea también su directorio en /home."],
-[7,"¿Qué hace sudo groupadd webdev?","Crea el grupo webdev",["Crea el usuario webdev","Añade un usuario a un grupo","Elimina un grupo"],"usermod -aG añade usuarios al grupo."],
-[7,"¿Qué hace su - webadmin?","Cambia a webadmin con su entorno y directorio personal",["Cierra la sesión","Crea el usuario","Da permisos de administrador"],"El guion carga el entorno del usuario."],
-[7,"¿Para qué sirve exit tras su - webadmin?","Para volver al usuario anterior",["Para borrar webadmin","Para apagar el equipo","Para cambiar la contraseña"],"Cierra la sesión de webadmin."],
-[7,"¿Qué permite el permiso x sobre un directorio?","Entrar en él y atravesarlo",["Listar sus nombres","Crear archivos","Cambiar su propietario"],"Sin x no se puede acceder a su contenido."],
-[7,"¿Por qué son útiles los grupos con varios desarrolladores?","Permiten dar los mismos permisos a todos sin compartir cuenta",["Aumentan la memoria RAM","Evitan usar permisos","Sustituyen a las contraseñas"],"Se gestionan permisos por grupo."],
-[7,"En -rw-r----- webadmin webdev index.html, ¿qué puede hacer el grupo?","Solo leer",["Leer y escribir","Nada","Ejecutar"],"Propietario rw-, grupo r--, otros ---."],
-[7,"¿Qué permisos da chmod 640?","rw-r-----",["rw-rw----","rwxr-----","r--r-----"],"6 = rw-, 4 = r--, 0 = ---."],
-[0,"¿Qué elemento es el canal físico de transmisión?","El medio",["El emisor","El mensaje","El receptor"],"Puede ser un cable u ondas."],
-[0,"¿Qué es el mensaje en un sistema de comunicación?","La información codificada para su transmisión",["El canal físico","Las reglas de comunicación","El dispositivo que recibe"],"Lo origina el emisor."],
-[0,"¿Qué aporta la escalabilidad a una red?","Crecer sin rediseñar toda la infraestructura",["Reducir el número de dispositivos","Evitar los protocolos","Eliminar el cableado"],"Es una de las ventajas de las redes."],
-[0,"¿Qué clasificación de redes distingue cliente-servidor y P2P?","Por relación funcional",["Por alcance","Por topología","Por velocidad"],"Por alcance: LAN, MAN, WAN."],
-[0,"¿Qué capa OSI incluye HTTP, SMTP y FTP?","Aplicación (7)",["Transporte (4)","Sesión (5)","Red (3)"],"Interfaz con el usuario final."],
-[0,"¿Qué capa OSI se encarga del acceso al medio y control de errores (Ethernet)?","Enlace de datos (2)",["Física (1)","Red (3)","Sesión (5)"],"Es la capa 2."],
-[0,"¿Qué diferencia hay entre OSI y TCP/IP?","OSI es un modelo teórico de 7 capas; TCP/IP es la implementación real de 4",["OSI tiene 4 capas y TCP/IP 7","TCP/IP es solo teórico","No hay diferencias"],"Ambos son complementarios."],
-[0,"¿Qué es un sistema de comunicación híbrido?","Combina tecnologías analógicas y digitales",["Solo usa señales analógicas","Solo usa señales digitales","No usa señales"],"Aprovecha las ventajas de ambos."],
-[1,"¿Qué estándar Wi-Fi alcanza hasta 46 Gbps?","Wi-Fi 7 (802.11be)",["Wi-Fi 4 (802.11n)","Wi-Fi 5 (802.11ac)","Wi-Fi 6 (802.11ax)"],"Wi-Fi 6 llega a 9,6 Gbps."],
-[1,"¿Qué frecuencia usa Wi-Fi 5 (802.11ac)?","5 GHz",["2.4 GHz","6 GHz","2.4 y 6 GHz"],"Wi-Fi 6 y 7 añaden 6 GHz."],
-[1,"¿Qué componente lógico de una red es un conjunto de reglas de comunicación?","Los protocolos",["Las direcciones IP","El cableado","Los switches"],"Ejemplos: TCP/IP, HTTP, FTP."],
-[1,"¿Cuántos bits tiene una dirección IPv6?","128",["32","64","256"],"IPv4 tiene 32 bits."],
-[1,"¿En qué consiste el filtrado de direcciones MAC?","En permitir solo dispositivos con MAC autorizadas",["En ocultar el SSID","En cifrar con WPA3","En cambiar la contraseña"],"Es una mejora de seguridad básica."],
-[1,"¿Qué dispositivo conecta diferentes redes y determina la mejor ruta?","Router",["Switch","Hub","Cable coaxial"],"El switch conecta dispositivos de una misma red."],
-[1,"¿Qué ataque intercepta la comunicación entre dos partes?","Man-in-the-middle",["Evil Twin","Fuerza bruta","Filtrado MAC"],"Es un riesgo común en redes inalámbricas."],
-[1,"¿Qué alcance interior aproximado tiene Wi-Fi 4?","70 metros",["35 metros","30 metros","240 metros"],"Bluetooth 5.0 llega a 240 m en línea de vista."],
-[2,"¿Cuántas redes privadas de clase B existen?","16",["1","256","65.536"],"De 172.16.0.0 a 172.31.0.0."],
-[2,"¿Cuántas direcciones IP tiene la red privada 10.0.0.0/8?","16.777.216",["65.536","256","254"],"2^24 direcciones."],
-[2,"¿Cuál es el rango privado de clase C?","192.168.0.0 a 192.168.255.255",["192.0.0.0 a 192.255.255.255","172.16.0.0 a 172.31.255.255","10.0.0.0 a 10.255.255.255"],"Hay 256 redes /24."],
-[2,"¿Con qué bits empieza una dirección de clase B?","10",["0","110","1110"],"Clase A: 0; C: 110; D: 1110."],
-[2,"¿Qué es una subred?","Una división lógica de una red IP en segmentos más pequeños",["Un tipo de cable","Una dirección de broadcast","Un protocolo de transporte"],"Mejora la administración y la seguridad."],
-[2,"¿De dónde se toman los bits para crear subredes?","De la porción de host",["De la porción de red","Del número de puerto","Del protocolo"],"Son bits prestados del host."],
-[2,"¿Cuántos hosts utilizables tiene cada subred /26?","62",["64","30","126"],"64 direcciones menos red y broadcast."],
-[2,"¿Cuántos bits de red indica la máscara /24?","24",["8","16","32"],"Equivale a 255.255.255.0."],
-[3,"¿Qué comando de Windows sirve para administrar y solucionar problemas de red?","netsh",["ping","arp","tracert"],"Ej.: netsh interface ip show config."],
-[3,"¿En qué capa del modelo OSI opera un router?","Capa 3 (red)",["Capa 1 (física)","Capa 2 (enlace)","Capa 4 (transporte)"],"El switch trabaja en la capa 2."],
-[3,"¿Para qué sirve nslookup www.ejemplo.com?","Para consultar registros DNS del dominio",["Para ver la ruta de paquetes","Para ver la caché ARP","Para comprobar conectividad ICMP"],"Consulta servidores DNS."],
-[3,"¿Qué es la métrica en una tabla de enrutamiento?","El coste de la ruta",["La máscara de subred","La interfaz de salida","La IP de origen"],"Sirve para elegir la mejor ruta."],
-[3,"¿Qué comando añade la ruta a 192.168.2.0/24 por el gateway 192.168.1.1?","route add 192.168.2.0 mask 255.255.255.0 192.168.1.1",["route print","arp -a 192.168.2.0","netsh add 192.168.2.0"],"route modifica la tabla local."],
-[3,"¿Cómo puede configurarse un router?","Por interfaz web, CLI o herramientas de gestión centralizadas",["Solo por interfaz web","Solo por USB","No se puede configurar"],"Se configuran IP, máscaras, gateway y servicios."],
-[3,"¿Qué protocolo utiliza ping?","ICMP",["TCP","HTTP","ARP"],"Envía paquetes ICMP."],
-[3,"¿Qué combina el enrutamiento híbrido?","Rutas estáticas y dinámicas",["Solo rutas estáticas","Solo IPv6","Ninguna ruta"],"Es el tercer algoritmo visto."],
-[4,"¿Qué hace cd ~?","Va al directorio personal",["Sube al directorio padre","Va a la raíz","Crea un directorio"],"~ representa el directorio personal."],
-[4,"¿Qué muestra ls -l?","El listado en formato largo, con permisos y tamaño",["Los archivos ocultos","Solo los directorios","El contenido de los archivos"],"ls -a muestra los ocultos."],
-[4,"¿Qué comando muestra información del sistema y del kernel?","uname -a",["hostname","whoami","pwd"],"hostname solo da el nombre del equipo."],
-[4,"¿Qué hace rm archivo.txt?","Elimina el archivo",["Lo copia","Lo renombra","Lo muestra"],"En Linux no hay papelera en la terminal."],
-[4,"¿Qué ocurre con echo 'Hola' > a.txt si a.txt ya tenía contenido?","Se sobrescribe",["Se añade al final","Se crea un duplicado","Se produce un error"],">> añadiría al final."],
-[4,"¿Qué representa ~ en la terminal?","El directorio personal del usuario",["El directorio raíz","El directorio padre","El directorio actual"],"Ej.: /home/alumno."],
-[4,"¿Qué hace mkdir -p a/b/c?","Crea la ruta completa, con los directorios intermedios",["Solo crea c","Crea un archivo","Siempre da error"],"-p crea los padres necesarios."],
-[4,"¿Qué comando muestra con qué usuario has iniciado sesión?","whoami",["hostname","pwd","ls"],"Who am I."],
-[5,"¿Qué hace el comando tail?","Muestra el final de un archivo",["Muestra el inicio","Cuenta líneas","Busca archivos"],"head muestra el inicio."],
-[5,"¿Qué hace find proyecto -type d?","Busca directorios dentro de proyecto",["Busca archivos .d","Borra directorios","Cuenta directorios"],"-type d filtra por directorios."],
-[5,"¿Cómo añades FIN DEL INFORME al final de avisos.txt sin borrar lo anterior?","echo 'FIN DEL INFORME' >> avisos.txt",["echo 'FIN DEL INFORME' > avisos.txt","cat 'FIN DEL INFORME' avisos.txt","grep 'FIN DEL INFORME' avisos.txt"],">> añade; > sobrescribe."],
-[5,"¿Para qué se utiliza less?","Para consultar un archivo navegando por él",["Para borrar líneas","Para ordenar un archivo","Para copiar archivos"],"Se sale con q."],
-[5,"¿Qué hace ls | sort?","Ordena alfabéticamente el listado",["Borra duplicados","Guarda el listado en un archivo","Cuenta los archivos"],"sort ordena la entrada recibida."],
-[5,"¿Qué hace find . -name index.html?","Busca exactamente el archivo index.html",["Busca texto index.html","Crea index.html","Elimina index.html"],"-name filtra por nombre."],
-[5,"¿Qué hace grep /login servidor.log | tail -n 2?","Muestra las 2 últimas coincidencias con /login",["Muestra las 2 primeras","Cuenta las coincidencias","Borra las 2 últimas"],"Combina grep y tail con una tubería."],
-[5,"¿Qué diferencia hay entre grep y find?","grep busca texto dentro de archivos; find busca archivos y directorios",["Son idénticos","find busca texto y grep archivos","grep solo funciona con directorios"],"Cada uno tiene su uso."],
-[6,"¿Qué hace ps aux | head?","Muestra los primeros procesos de todos los usuarios",["Elimina procesos","Muestra la memoria libre","Abre top"],"head limita la salida."],
-[6,"¿Por qué ps aux muestra procesos de otros usuarios y del sistema?","Porque aux lista los procesos de todos los usuarios",["Porque hay un error","Porque son procesos tuyos","Porque necesitas sudo"],"ps sin opciones solo muestra tu sesión."],
-[6,"¿Para qué se utiliza top?","Para ver en tiempo real CPU, memoria y procesos",["Para ver permisos","Para listar archivos","Para crear usuarios"],"Se sale con q."],
-[6,"¿Qué hace pgrep sleep?","Muestra los PID de los procesos sleep",["Crea un proceso sleep","Termina los procesos sleep","Muestra la memoria"],"Sirve para comprobar si sigue ejecutándose."],
-[6,"¿Qué permisos se asignan a un directorio web como web?","755",["777","600","000"],"rwxr-xr-x."],
-[6,"¿Qué permisos se asignan a index.html en la simulación del servidor web?","644",["777","600","755"],"rw-r--r--."],
-[6,"¿Para qué sirve sudo?","Para ejecutar comandos con privilegios de administrador",["Para cambiar de directorio","Para listar procesos","Para comprimir archivos"],"Se usa con cuidado."],
-[6,"¿Qué diferencia hay entre apt update y apt search?","update actualiza la lista de paquetes; search busca paquetes",["update instala paquetes","search elimina paquetes","No hay diferencia"],"Ninguno instala nada."],
-[7,"¿Qué muestra ls -ld /srv/proyecto-web?","Los permisos del propio directorio, no de su contenido",["El contenido del directorio","Solo archivos ocultos","El tamaño del disco"],"-d trata el directorio como un elemento."],
-[7,"¿Qué permite el permiso r sobre un directorio?","Listar los nombres",["Entrar en él","Crear archivos","Cambiar propietario"],"x permite entrar."],
-[7,"¿Para qué sirve chgrp?","Para cambiar el grupo de un archivo o directorio",["Para crear grupos","Para cambiar permisos","Para cambiar de usuario"],"chown también puede cambiarlo."],
-[7,"¿Qué hace chmod g+w publico.txt?","Añade escritura al grupo",["Quita escritura al grupo","Añade escritura a otros","Cambia el grupo"],"g = grupo."],
-[7,"¿Qué hace chmod o-r publico.txt?","Quita la lectura a otros",["Añade lectura a otros","Quita lectura al propietario","Quita todo a otros"],"o = otros."],
-[7,"¿Qué diferencia hay entre chmod 640 y chmod g-rwx,o-rwx?","640 fija los permisos exactos; el simbólico solo quita a grupo y otros",["Son siempre idénticos","640 solo afecta al grupo","El simbólico fija los del propietario"],"El simbólico depende de los permisos iniciales."],
-[7,"¿Qué muestra id anaweb?","UID, GID y grupos del usuario anaweb",["Los procesos de anaweb","El directorio de anaweb","Su contraseña"],"Sirve para comprobar pertenencia a grupos."],
-[7,"¿Qué comando lista los servicios en ejecución?","systemctl --type=service --state=running",["ps aux","ls /srv","free -h"],"Luego systemctl status NOMBRE."],
-[0,"¿Qué tipo de sistemas dominan las comunicaciones modernas?","Los digitales",["Los analógicos","Los mecánicos","Los ópticos puros"],"Mayor precisión y resistencia al ruido."],
-[0,"¿Qué significan las siglas OSI?","Open Systems Interconnection",["Open Secure Internet","Operating System Interface","Online Service Interconnection"],"Marco de 7 capas de la ISO."],
-[0,"¿Qué mejora la administración centralizada de datos en una red?","Control de acceso, copias de seguridad y políticas de seguridad",["Solo la velocidad del Wi-Fi","El color del cableado","El número de nodos"],"Ventaja de centralización y seguridad."],
-[0,"¿Qué son los nodos de una red?","Los equipos como ordenadores y servidores",["Los cables","Los protocolos","Las direcciones IP"],"También hay routers y switches."],
-[0,"¿En qué capa OSI trabajan TCP y UDP?","Transporte (4)",["Red (3)","Sesión (5)","Enlace de datos (2)"],"Transferencia confiable de datos."],
-[0,"¿Qué capa TCP/IP incluye IP, ICMP y ARP?","Internet",["Aplicación","Transporte","Acceso a red"],"Equivale a la capa de red de OSI."],
-[0,"¿Qué capas OSI agrupa la capa Acceso a red de TCP/IP?","Física y Enlace de datos",["Red y Transporte","Sesión y Presentación","Aplicación y Presentación"],"Ejemplos: Ethernet, Wi-Fi, PPP."],
-[1,"¿Qué ventaja tiene la topología en estrella?","Facilita la administración",["No depende de ningún nodo","Usa un único cable","Es la más económica siempre"],"Pero depende del nodo central."],
-[1,"¿Qué ventaja destacan las redes inalámbricas?","Movilidad y flexibilidad para los usuarios",["Mayor velocidad que el cable","Ausencia de interferencias","Mayor seguridad"],"También menor coste de instalación."],
-[1,"¿Qué es el SSID?","El nombre de la red inalámbrica",["La clave Wi-Fi","La dirección MAC","El tipo de cifrado"],"Ocultarlo es una práctica habitual."],
-[1,"¿Qué pasa con el protocolo WEP?","Está obsoleto y es vulnerable",["Es el más seguro","Es el más reciente","Es igual que WPA3"],"Se recomienda WPA2 o WPA3."],
-[1,"¿Qué alcance interior tiene Wi-Fi 5 (802.11ac)?","35 metros",["70 metros","240 metros","10 metros"],"Wi-Fi 6 y 7: unos 30 m."],
-[1,"¿Qué velocidad máxima tiene Wi-Fi 6 (802.11ax)?","9,6 Gbps",["600 Mbps","3,5 Gbps","46 Gbps"],"Wi-Fi 7 llega a 46 Gbps."],
-[1,"¿Qué usan las redes inalámbricas para transmitir datos?","Ondas electromagnéticas",["Cables de cobre","Fibra óptica","Cables coaxiales"],"Sin cables físicos."],
-[2,"¿Qué función tiene una dirección IP?","Identificar de forma única a cada dispositivo en la red",["Cifrar los datos","Dividir el ancho de banda","Medir la velocidad"],"Funciona como una dirección postal."],
-[2,"¿Qué rango tiene la clase A?","1.0.0.0 a 126.255.255.255",["128.0.0.0 a 191.255.255.255","192.0.0.0 a 223.255.255.255","224.0.0.0 a 239.255.255.255"],"Empieza por el bit 0."],
-[2,"¿Qué rango tiene la clase B?","128.0.0.0 a 191.255.255.255",["1.0.0.0 a 126.255.255.255","192.0.0.0 a 223.255.255.255","240.0.0.0 a 255.255.255.255"],"Empieza por los bits 10."],
-[2,"¿Qué máscara tiene la clase B?","255.255.0.0 (/16)",["255.0.0.0 (/8)","255.255.255.0 (/24)","255.255.255.192 (/26)"],"Admite 65.534 hosts."],
-[2,"¿Cuántos hosts por red admite la clase B?","65.534",["254","16.777.214","65.536"],"Se restan red y broadcast."],
-[2,"¿Para qué sirve 127.0.0.1?","Para pruebas de conectividad local",["Para salir a Internet","Para broadcast","Para multicast"],"Es el localhost."],
-[2,"¿Cuál es el broadcast de la subred 192.168.1.0/26?","192.168.1.63",["192.168.1.64","192.168.1.255","192.168.1.62"],"La subred cubre de .0 a .63."],
-[3,"¿Qué muestra tracert www.google.es?","Los saltos que recorren los paquetes hasta el destino",["Los registros DNS","La tabla ARP","Las conexiones activas"],"Es el equivalente a traceroute."],
-[3,"¿Qué es el siguiente salto en una tabla de enrutamiento?","El gateway al que se envía el paquete",["La máscara de subred","La métrica","La IP de origen"],"También llamado gateway."],
-[3,"¿Qué indica la interfaz de salida?","Por qué interfaz del router sale el paquete",["El coste de la ruta","El nombre del dominio","La MAC del destino"],"Es un campo de la tabla."],
-[3,"¿Qué es el enrutamiento estático?","Rutas configuradas manualmente",["Rutas aprendidas automáticamente","Rutas aleatorias","Rutas sin destino"],"El dinámico las aprende solo."],
-[3,"¿Qué es el enrutamiento dinámico?","Rutas aprendidas automáticamente mediante protocolos",["Rutas escritas a mano","Rutas sin máscara","Rutas solo locales"],"Se adapta a cambios en la red."],
-[3,"¿Qué muestra netsh interface ip show config?","La configuración IP de las interfaces",["La ruta a un destino","Los registros DNS","Las conexiones activas"],"netsh administra la red."],
-[3,"¿Qué aporta la segmentación del router?","Control del tráfico de red",["Menos direcciones IP","Eliminar el Wi-Fi","Cifrar el disco"],"Los routers segmentan y controlan el tráfico."],
-[4,"¿Cómo copias notas.txt al directorio backup?","cp notas.txt backup/",["mv notas.txt backup/","cat notas.txt backup/","rm notas.txt backup/"],"mv movería el archivo."],
-[4,"¿Qué comando elimina un directorio vacío?","rmdir",["mkdir","touch","cd"],"Falla si tiene contenido."],
-[4,"¿Cómo creas tres directorios a la vez?","mkdir documentos practicas backup",["touch documentos practicas backup","cd documentos practicas backup","ls documentos practicas backup"],"mkdir acepta varios nombres."],
-[4,"¿Qué hace cd /?","Va al directorio raíz",["Va al personal","Sube un nivel","Crea un directorio"],"pwd mostrará /."],
-[4,"¿Por qué no se usa sudo en la práctica 01?","Para trabajar con usuario normal y no modificar el sistema por error",["Porque sudo no existe","Porque es más lento","Porque borra archivos"],"Es una norma de la práctica."],
-[4,"¿Qué hace echo 'Segunda línea' >> documentos/apuntes.txt?","Añade la línea al final del archivo",["Sobrescribe el archivo","Borra el archivo","Lo copia"],">> añade."],
-[4,"¿Qué hace rm -r carpeta?","Elimina la carpeta y su contenido de forma recursiva",["Solo renombra la carpeta","La copia","Solo elimina carpetas vacías"],"Úsalo con cuidado."],
-[5,"¿Qué hace grep WARN servidor.log?","Muestra las líneas que contienen WARN",["Cuenta las líneas","Borra las líneas WARN","Ordena el archivo"],"Busca texto o patrones."],
-[5,"¿Qué cuenta wc -w?","Las palabras",["Las líneas","Los bytes","Los directorios"],"wc -l cuenta líneas."],
-[5,"¿Qué hace sort?","Ordena las líneas de la entrada",["Elimina duplicados","Cuenta líneas","Busca archivos"],"uniq elimina repeticiones consecutivas."],
-[5,"¿Qué comando busca todos los archivos que terminan en .txt?","find . -name '*.txt'",["grep .txt .","ls -txt","find .txt -name ."],"find usa -name."],
-[5,"¿Qué hace head servidor.log?","Muestra las primeras líneas",["Muestra las últimas","Cuenta líneas","Ordena el archivo"],"Por defecto 10 líneas."],
-[5,"¿Qué hace history | grep grep?","Filtra el historial dejando solo los comandos que contienen grep",["Borra el historial","Ejecuta grep","Cuenta comandos"],"Combina dos comandos con una tubería."],
-[5,"¿Qué hace ls -l > listado.txt?","Guarda el listado largo en listado.txt",["Muestra el listado en pantalla","Añade a listado.txt","Borra listado.txt"],"> sobrescribe el archivo."],
-[6,"¿Qué es el UID?","El identificador numérico del usuario",["El nombre del grupo","El PID de un proceso","La ruta personal"],"id muestra UID y GID."],
-[6,"¿Qué muestra el comando groups?","Los grupos a los que pertenece el usuario",["Los procesos","El disco libre","La memoria"],"id también los muestra."],
-[6,"¿Qué valor numérico tiene el permiso w?","2",["1","4","7"],"r=4, w=2, x=1."],
-[6,"¿Qué permisos representa el número 6?","rw-",["r-x","rwx","r--"],"4+2 = 6."],
-[6,"¿Qué muestra ps sin opciones?","Los procesos asociados a tu sesión",["Todos los procesos del sistema","El uso de disco","Los usuarios conectados"],"ps aux muestra todos."],
-[6,"¿Por qué se usa 644 en un archivo web?","El propietario lo edita y los demás solo lo leen",["Todos pueden escribir","Nadie puede leerlo","Solo el grupo puede leerlo"],"rw-r--r--."],
-[6,"¿Qué permisos da chmod 700?","rwx------",["rwxr-xr-x","rw-------","rwxrwx---"],"Solo el propietario tiene acceso."],
-[7,"¿Qué permisos da chmod 750?","rwxr-x---",["rwxrwx---","rwxr-xr-x","rw-r-----"],"7 propietario, 5 grupo, 0 otros."],
-[7,"¿Qué permisos da chmod 770?","rwxrwx---",["rwxr-x---","rwxrwxrwx","rw-rw----"],"Otros sin acceso."],
-[7,"¿Qué comando comprueba los grupos de webadmin?","groups webadmin",["whoami webadmin","ls webadmin","pwd webadmin"],"También sirve id webadmin."],
-[7,"¿Qué permisos mínimos hacen falta para entrar y listar un directorio?","r-x",["--x","-w-","r--"],"x para entrar, r para listar."],
-[7,"¿Qué permite chmod 755 script.sh?","Que todos lo ejecuten y solo el propietario lo modifique",["Que solo el propietario lo ejecute","Que todos lo modifiquen","Que nadie lo lea"],"rwxr-xr-x."],
-[7,"¿Por qué se usa sudo para crear /srv/proyecto-web?","Porque crear en /srv requiere privilegios de administrador",["Porque es obligatorio en todos los directorios","Porque sudo da más memoria","Porque evita los permisos"],"Un usuario normal no puede escribir ahí."],
-[7,"¿Para qué sirve el grupo equipo-web en el reto final?","Para dar acceso compartido a anaweb y jonweb",["Para dar acceso a todos los usuarios","Para impedir que anaweb escriba","Para cambiar contraseñas"],"Propietario y grupo acceden; otros no."]
-].map(([t,q,c,w,e])=>({t,q,c,w,e}));
-
-const $=s=>document.querySelector(s), app=$("#app");
-const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
-let sel=new Set(T.map((_,i)=>i)), count=10, pool=[], i=0, score=0, wrong=[], byT={};
-
-function home(){
-  app.innerHTML=`<div class="card"><b>Temas</b>
-  <div class="chips">${T.map((n,k)=>`<span class="chip ${sel.has(k)?"on":""}" data-k="${k}">${n}</span>`).join("")}</div>
-  <div class="row"><label>Preguntas:
-  <select id="n">${[10,20,40,RAW.length].map(v=>`<option value="${v}" ${v==count?"selected":""}>${v==RAW.length?"Todas ("+v+")":v}</option>`).join("")}</select></label>
-  <button class="btn" id="go">Empezar</button></div></div>
-  <p class="sub">${RAW.length} preguntas disponibles. El orden de preguntas y respuestas es aleatorio.</p>
-  <div class="card cv"><b>Conversión de bases</b><p class="sub" style="margin:6px 0 12px">Te damos un número en binario, decimal o hexadecimal y tienes que pasarlo a las otras dos bases.</p><button class="btn" id="cv">Practicar conversiones</button></div>`;
-  document.querySelectorAll(".chip").forEach(c=>c.onclick=()=>{const k=+c.dataset.k;sel.has(k)?sel.delete(k):sel.add(k);home()});
-  $("#n").onchange=e=>count=+e.target.value;
-  $("#go").disabled=!sel.size;
-  $("#go").onclick=start;$("#cv").onclick=convHome;
-}
-function start(){
-  pool=shuffle(RAW.filter(q=>sel.has(q.t))).slice(0,count);
-  i=0;score=0;wrong=[];byT={};show();
-}
+const T={T:"Teoría",C:"Comandos",D:"Dockerfile",P:"Persistencia",R:"Redes"};
+// [tema, pregunta, correcta, mala1, mala2, mala3, explicación]
+const Q=[
+["T","¿Qué es una imagen Docker?","Una plantilla inmutable (receta) con la base, librerías y dependencias de la app","Una instancia de la aplicación en ejecución","Un almacén de contenedores","Una máquina virtual completa","La imagen es la plantilla; el contenedor es lo que se ejecuta a partir de ella. Funciona por capas y no cambia: para alterarla hay que generar otra."],
+["T","¿Qué es un contenedor respecto a una imagen?","Una instancia concreta de la imagen, como un objeto de una clase","La plantilla de la que se crean imágenes","Un registro remoto de imágenes","Un fichero con instrucciones de construcción","La imagen es como una clase y el contenedor como un objeto: de una imagen se pueden instanciar muchos contenedores."],
+["T","¿Por qué los contenedores pesan menos que las máquinas virtuales?","Comparten el kernel del host y no incluyen un SO completo","Usan compresión de disco","Solo funcionan con Alpine","Se ejecutan en la nube","Una VM necesita un SO virtualizado entero; el contenedor reutiliza el kernel Linux del anfitrión."],
+["T","¿Qué significa que una imagen es inmutable?","Para cambiar el despliegue hay que crear una imagen nueva","No se puede borrar","No se puede descargar de Docker Hub","Solo se puede usar una vez","Se construye de forma determinista con un Dockerfile; si algo cambia, se reconstruye."],
+["T","¿Qué significa que Docker es portable?","Lleva sus dependencias integradas y funciona en cualquier equipo","Solo funciona en portátiles","No necesita Docker instalado","Se ejecuta sin red","Si funciona en tu máquina, debería funcionar en otra, incluido el servidor de producción."],
+["T","¿Qué almacena un repositorio (registro) Docker?","Imágenes","Contenedores en ejecución","Volúmenes","Redes","Los registros guardan imágenes, no contenedores. Docker Hub es un ejemplo de registro público."],
+["T","¿Cuál de estos es un repositorio remoto público?","Docker Hub","El registro local","docker.sock","WSL","Docker Hub y GitHub Container Registry son públicos; también existen privados (cerrados, a veces de pago)."],
+["T","¿Qué contiene el registro local de una instalación de Docker?","Las imágenes creadas o descargadas","Todas las imágenes de Docker Hub","Solo contenedores parados","Solo volúmenes","Cada instalación tiene su registro local con las imágenes que has creado o descargado."],
+["T","Un contenedor es efímero. ¿Qué implica?","Los cambios internos se pierden al borrarlo/actualizarlo si no hay volumen","Dura 24 horas","Se borra al cerrar el navegador","No puede reiniciarse","Por eso los datos importantes se guardan en volúmenes."],
+["T","¿Qué requisito tiene Docker Desktop en Windows?","Tener WSL (Linux sobre Windows) instalado","Tener Hyper-V desactivado","Tener Ubuntu como SO","Tener MySQL instalado","Docker Desktop avisa de ello al instalarlo e indica cómo configurarlo."],
+["T","¿Qué se recomienda instalar en Linux?","Docker Engine","Docker Desktop","Una VM con Windows","Docker Hub","Evita instalar máquinas virtuales innecesarias."],
+["T","¿Cómo puede un contenedor aislado interactuar con el host?","Con volúmenes y mapeo de puertos","Solo con volúmenes","Solo con SSH","No puede hacerlo","Los volúmenes comparten carpetas y el port mapping conecta un puerto del host con uno del contenedor (TCP/IP)."],
+["C","¿Qué hace <code>docker ps -a</code>?","Lista todos los contenedores, también los parados","Lista solo los que están en marcha","Lista las imágenes","Lista las redes","<code>docker ps</code> muestra los que corren; con <code>-a</code> aparecen todos."],
+["C","¿Qué comando lista las imágenes del repositorio local?","<code>docker images</code>","<code>docker ps</code>","<code>docker list</code>","<code>docker pull</code>","<code>docker images</code> muestra las imágenes locales; <code>docker ps</code> los contenedores."],
+["C","¿Qué comando descarga una imagen, normalmente de Docker Hub?","<code>docker pull</code>","<code>docker build</code>","<code>docker run</code>","<code>docker get</code>","<code>docker pull ubuntu:latest</code> descarga la imagen sin arrancar nada."],
+["C","¿Qué hace la opción <code>-d</code> de <code>docker run</code>?","Ejecuta el contenedor en segundo plano","Elimina el contenedor al parar","Descarga la imagen","Define el directorio de trabajo","<code>-d</code> (detach) deja el contenedor corriendo en background."],
+["C","En <code>-p 4406:3306</code>, ¿qué significa?","El puerto 4406 del host apunta al 3306 del contenedor","El 3306 del host apunta al 4406 del contenedor","Se abren ambos puertos en el contenedor","Se crea una red 4406","El formato es <code>puerto-host:puerto-contenedor</code>."],
+["C","¿Para qué sirve <code>-e MYSQL_ROOT_PASSWORD=root1234</code>?","Para dar valor a una variable de entorno","Para exponer un puerto","Para crear un volumen","Para ejecutar un comando","<code>-e clave=valor</code> define variables de entorno del contenedor."],
+["C","¿Qué hace <code>docker exec -it mynginx bash</code>?","Abre una consola bash interactiva dentro del contenedor en marcha","Crea un contenedor nuevo","Reinicia nginx","Construye una imagen","<code>exec</code> ejecuta un comando en un contenedor que ya está corriendo; <code>-it</code> lo hace interactivo."],
+["C","¿Cuál es la diferencia entre <code>docker rm</code> y <code>docker rmi</code>?","<code>rm</code> elimina contenedores y <code>rmi</code> imágenes","<code>rm</code> elimina imágenes y <code>rmi</code> contenedores","<code>rm</code> elimina redes y <code>rmi</code> volúmenes","Ninguna","La <b>i</b> de <code>rmi</code> es de image."],
+["C","En <code>docker build -t nuestraImagen .</code>, ¿qué indica el punto final?","El contexto de construcción: la carpeta actual","Que se ejecuta en segundo plano","El puerto","La versión de la imagen","Es el PATH donde Docker busca el Dockerfile y los ficheros a copiar; <code>-t</code> asigna el tag."],
+["C","¿Qué hace <code>docker logs -f mysql</code>?","Muestra los logs del contenedor y sigue mostrando los nuevos","Borra los logs","Fuerza el reinicio","Filtra por fecha","<code>-f</code> (follow) deja la salida abierta en tiempo real."],
+["D","¿Qué es un Dockerfile?","Un texto plano con las instrucciones para ensamblar una imagen","Un contenedor parado","Un volumen","Un registro de imágenes","Es el plano; la imagen es el edificio construido. Garantiza reproducibilidad."],
+["D","¿Qué instrucción debe ser la primera de un Dockerfile?","<code>FROM</code>","<code>RUN</code>","<code>CMD</code>","<code>COPY</code>","<code>FROM</code> define la imagen base."],
+["D","¿Qué hace <code>WORKDIR /app</code>?","Establece el directorio de trabajo para los comandos siguientes","Copia archivos a /app","Expone el puerto de /app","Crea un volumen","Las siguientes instrucciones se ejecutan dentro de ese directorio."],
+["D","¿Qué diferencia hay entre <code>RUN</code> y <code>CMD</code>?","<code>RUN</code> se ejecuta al construir la imagen; <code>CMD</code> al arrancar el contenedor","<code>RUN</code> arranca el contenedor y <code>CMD</code> construye","Ninguna","<code>CMD</code> instala dependencias","Ej.: <code>RUN npm install</code> en la construcción y <code>CMD [&quot;npm&quot;,&quot;start&quot;]</code> al arrancar."],
+["D","¿Qué hace realmente <code>EXPOSE 80</code>?","Documenta el puerto; es informativo","Publica el puerto 80 en el host","Abre el firewall","Cambia el puerto de nginx","Para publicar el puerto hay que usar <code>-p</code> en <code>docker run</code>."],
+["D","¿Por qué se usa <code>daemon off;</code> en <code>CMD [&quot;nginx&quot;,&quot;-g&quot;,&quot;daemon off;&quot;]</code>?","Para que Nginx corra en primer plano y el contenedor no se detenga","Para desactivar la red","Para ahorrar memoria","Para ejecutar Nginx como root","Un contenedor vive mientras su proceso principal esté en primer plano."],
+["D","¿Por qué en Node se hace <code>COPY package*.json ./</code> antes de <code>RUN npm install</code>?","Para aprovechar la caché de capas de Docker","Para que npm sea más rápido","Porque COPY . . falla","Para evitar EXPOSE","Si el código cambia pero las dependencias no, la capa de <code>npm install</code> se reutiliza."],
+["D","Con <code>COPY ./html ...</code> en el Dockerfile, editas <code>index.html</code> en tu PC tras arrancar el contenedor. ¿Qué ocurre?","No se actualiza: hay que reconstruir la imagen o usar un volumen","Se actualiza al instante","Se actualiza al reiniciar el PC","Docker lo detecta y reconstruye","COPY mete una copia en la imagen durante el build; no hay vínculo con el host, a diferencia de un volumen."],
+["P","¿Para qué sirven los volúmenes?","Para que los datos persistan aunque se borre o actualice el contenedor","Para aumentar la RAM","Para conectar contenedores en red","Para descargar imágenes","Conectan un directorio del contenedor con uno del host, como una carpeta compartida."],
+["P","¿Cuál es el formato de <code>-v</code> con ruta local?","<code>ruta-host:ruta-contenedor</code>","<code>ruta-contenedor:ruta-host</code>","<code>nombre:puerto</code>","<code>imagen:tag</code>","Ej.: <code>-v &quot;$(pwd)/minginx/html:/usr/share/nginx/html&quot;</code>."],
+["P","Dos contenedores nginx montan la misma carpeta, en los puertos 8080 y 8081. ¿Qué verás?","El mismo contenido en ambos; un cambio se refleja en los dos","Contenido distinto en cada uno","Un error de puerto","Solo funciona el primero","Comparten el volumen; además no hace falta entrar al contenedor para editar la web."],
+["P","¿Qué comando crea un volumen con nombre?","<code>docker volume create</code>","<code>docker create volume</code>","<code>docker run volume</code>","<code>docker mount</code>","Sintaxis: <code>docker volume create &lt;nombre&gt;</code>."],
+["P","¿Dónde sirve Nginx su contenido web?","<code>/usr/share/nginx/html</code>","<code>/var/www/html</code>","<code>/etc/nginx</code>","<code>/var/lib/nginx</code>","Esa es la ruta del contenedor que se enlaza con la carpeta local."],
+["P","¿Qué hace montar una carpeta en <code>/docker-entrypoint-initdb.d</code> de MySQL?","Ejecuta los .sql al arrancar por primera vez","Guarda copias de seguridad","Cambia la contraseña root","Expone el puerto 3306","Los scripts .sql se ejecutan automáticamente cuando la base de datos se inicializa (datos vacíos)."],
+["P","¿Qué se monta en <code>/var/lib/mysql</code>?","El volumen con los datos de MySQL","Los scripts de inicio","La configuración de Nginx","Los logs de Docker","Guardar esa ruta en un volumen hace que los datos sobrevivan a reinicios y borrados."],
+["P","Reinicias un contenedor MySQL con volumen tras modificar una tabla. ¿Qué pasa con los datos?","Se mantienen","Se pierden","Vuelven al estado del init.sql","Se corrompen","Están en el volumen, no en el contenedor."],
+["R","Por defecto, ¿qué ocurre entre contenedores sin configurar nada?","Están aislados y no se comunican","Se ven todos","Comparten la IP","Comparten el sistema de ficheros","Hay que configurar explícitamente la comunicación, por ejemplo con una red."],
+["R","¿Qué limitación tiene la red bridge por defecto?","Comunicación solo por IP, sin DNS automático","No permite contenedores","No tiene aislamiento","Solo admite MySQL","Por eso se recomienda una bridge personalizada."],
+["R","¿Qué ventaja da una red bridge personalizada?","DNS interno: los contenedores se llaman por su nombre","Más velocidad de CPU","Acceso directo al host","Elimina el aislamiento","Se puede usar <code>mysql-db</code> como host en la cadena de conexión."],
+["R","¿Por qué no conviene depender de IPs fijas?","Pueden cambiar al reiniciar los contenedores","Están prohibidas","Son más lentas","Docker no las muestra","Con nombres de contenedor evitas romper conexiones."],
+["R","¿Cómo funciona la red <code>host</code>?","Comparte la pila de red del anfitrión, sin mapeo <code>-p</code>","Aísla el contenedor del todo","Crea DNS interno","Crea una VPN","Elimina el aislamiento de red."],
+["R","¿Qué ofrece la red <code>none</code>?","Aislamiento total, solo loopback","Acceso a internet","Resolución por nombre","Compartir red con el host","Sin interfaces externas ni internas salvo localhost."],
+["R","¿Para qué sirve <code>docker network inspect</code>?","Ver los contenedores conectados y sus IPs","Eliminar la red","Crear la red","Listar imágenes","<code>docker network ls</code> lista las redes."],
+["R","¿Qué requisito hay para ejecutar <code>docker network rm</code>?","La red debe estar vacía de contenedores","Ser root","Parar Docker","Que sea la red por defecto","Si hay contenedores conectados, falla."],
+["R","¿Por qué se usa <code>nginx:alpine</code> para probar ping?","Incluye el comando ping; la versión latest no","Es la única con red","Es más rápida","Resuelve nombres","El ping debe existir dentro del contenedor desde el que lo lanzas."],
+["R","Desde <code>mysql-db</code> el ping a nginx no funciona. ¿Por qué?","La imagen mysql no incluye el comando ping","La red está mal creada","Falta <code>-p</code>","MySQL bloquea ICMP","No es un fallo de red: falta la herramienta."],
+["R","Haces ping desde un contenedor a otro que está en una red distinta. ¿Qué pasa?","No lo resuelve ni lo alcanza: están aislados","Funciona igual","Funciona por IP siempre","Docker lo conecta","Redes distintas son entornos separados."],
+["R","Si MySQL se arranca sin <code>-p</code> en una red personalizada, ¿quién puede conectarse?","Solo contenedores de esa red","Cualquiera desde internet","Solo el host","Nadie","Sin puerto publicado queda protegido en la red interna."],
+["T","¿Cuál NO es uno de los tres elementos fundamentales del mundo de los contenedores?","Máquinas virtuales","Imágenes","Contenedores","Repositorios","Los tres son imágenes, contenedores y repositorios."],
+["T","¿Cuántos contenedores se pueden crear a partir de una misma imagen?","Varios (múltiples)","Solo uno","Máximo dos","Ninguno, solo se ejecuta la imagen","La imagen se utiliza para instanciar múltiples contenedores independientes."],
+["T","¿Qué capa tiene una VM que Docker no necesita?","Un SO virtualizado completo","Capa de dependencias","Capa de aplicación","Hardware físico","En el esquema de la teoría, la VM añade un SO virtualizado; el contenedor usa el SO principal del host."],
+["T","¿Qué aporta el aislamiento de un contenedor?","Entorno seguro con su red interna y sistema de ficheros propios","Acceso total al host","Compartir la RAM con otros contenedores","Que no necesite imagen","Los contenedores ofrecen una plataforma segura y aislada del host."],
+["C","¿Qué hace <code>docker run --name hola-mundo hello-world</code>?","Crea y arranca un contenedor llamado hola-mundo desde la imagen hello-world","Descarga hello-world sin ejecutarla","Renombra la imagen","Elimina el contenedor hola-mundo","<code>run</code> crea e inicia un contenedor; <code>--name</code> le da nombre."],
+["C","¿Qué diferencia hay entre <code>docker run</code> y <code>docker start</code>?","<code>run</code> crea un contenedor nuevo; <code>start</code> arranca uno ya existente","Ninguna","<code>start</code> crea e inicia; <code>run</code> solo inicia","<code>start</code> descarga la imagen","Para un contenedor ya creado y parado se usa <code>docker start nombre</code>."],
+["C","¿Qué comando detiene el contenedor base-de-datos-mysql?","<code>docker stop base-de-datos-mysql</code>","<code>docker rm base-de-datos-mysql</code>","<code>docker rmi base-de-datos-mysql</code>","<code>docker exit base-de-datos-mysql</code>","<code>stop</code> detiene (también por ID); <code>rm</code> lo elimina."],
+["C","¿Qué tag se descarga con <code>docker pull nginx</code> si no indicas ninguno?","latest","alpine","stable","Ninguno, da error","Sin tag, Docker usa <code>latest</code>."],
+["C","¿Qué ocurre si ejecutas <code>docker run</code> sin <code>-d</code>?","El contenedor queda en primer plano ocupando la terminal","No arranca","Se elimina al terminar la imagen","Se abre el navegador","Con <code>-d</code> (detach) se ejecuta en segundo plano."],
+["C","Con <code>docker run -d -p 8080:80 nginx</code>, ¿qué URL abres para ver la web?","<code>http://localhost:8080</code>","<code>http://localhost:80</code>","<code>http://localhost:3306</code>","<code>http://nginx</code>","El 8080 es el puerto del host, que redirige al 80 del contenedor."],
+["C","Intentas crear un contenedor con un <code>--name</code> que ya existe. ¿Qué ocurre?","Docker da error de conflicto de nombre","Sobrescribe el anterior","Añade un sufijo automáticamente","Se ejecutan los dos","Los nombres de contenedor son únicos; hay que borrar el anterior o usar otro nombre."],
+["C","¿Qué pasa al hacer <code>docker rm</code> a un contenedor en marcha (sin <code>-f</code>)?","Da error: hay que pararlo antes","Se elimina igualmente","Se reinicia","Se elimina la imagen","Primero <code>docker stop</code>, luego <code>docker rm</code>."],
+["D","¿Qué indica <code>FROM node:20-alpine</code>?","Que se parte de Node 20 sobre Alpine Linux, una base ligera","Que se copia Node desde el host","Que se instala Alpine encima de Node","Que se expone el puerto 20","<code>FROM</code> define la imagen base; Alpine reduce el tamaño."],
+["D","¿Qué hace <code>COPY . .</code>?","Copia todo el contexto local al directorio de trabajo del contenedor","Copia la imagen al host","Ejecuta el código","Crea un volumen","El primer punto es el origen (host) y el segundo el destino (WORKDIR)."],
+["D","¿Cuál es el orden correcto de un Dockerfile Node?","FROM, WORKDIR, COPY package*.json, RUN npm install, COPY . ., EXPOSE, CMD","CMD, RUN, COPY, FROM","FROM, CMD, RUN, COPY","EXPOSE, FROM, COPY, RUN","Primero la base, luego dependencias (para la caché), después el código y por último el arranque."],
+["D","¿Qué ejecuta <code>CMD [&quot;npm&quot;,&quot;start&quot;]</code> en el ejemplo Node?","El script start de package.json (<code>node app.js</code>)","npm install","docker build","express.listen","El script <code>start</code> de package.json lanza <code>node app.js</code>."],
+["D","¿Qué dependencia declara el package.json del ejemplo?","express","nginx","mysql","alpine","Express es el framework del servidor del ejemplo."],
+["D","En el ejemplo Node, ¿en qué puerto escucha la app?","3000","80","8080","3306","Por eso <code>EXPOSE 3000</code> y mapeos como <code>-p 9080:3000</code>."],
+["D","¿Qué hace <code>-t</code> en <code>docker build -t web-nginx-daw .</code>?","Asigna un nombre (tag) a la imagen","Indica el tiempo máximo","Ejecuta tests","Crea un terminal","Luego se usa ese nombre en <code>docker run</code>."],
+["D","¿Qué ventaja da un Dockerfile sobre configurar a mano?","Reproducibilidad: cualquier equipo construye el mismo entorno","Es más rápido siempre","No necesita imagen base","Evita instalar Docker","Permite compilar el mismo entorno sin depender del SO local."],
+["P","¿Cómo se llama el montaje de una carpeta local con <code>-v ruta-local:ruta-contenedor</code>?","Bind mount (mapeo de directorios locales)","Network mount","Imagen base","Registry","Enlaza una carpeta del host con una del contenedor."],
+["P","Borras un contenedor MySQL que no usaba volumen. ¿Qué pasa con los datos?","Se pierden","Se conservan siempre","Pasan a la imagen","Se guardan en Docker Hub","Sin volumen, los datos viven solo dentro del contenedor."],
+["P","En <code>-v vol_mysql_datos:/var/lib/mysql</code>, ¿qué es <code>vol_mysql_datos</code>?","Un volumen con nombre gestionado por Docker","Una carpeta del escritorio","Una imagen","Una red","Si no es ruta absoluta, Docker lo trata como volumen con nombre."],
+["P","¿Con cuántos contenedores puede compartirse un volumen?","Con uno o más","Solo con uno","Con ninguno","Solo con dos","Por eso minginx y minginx2 pueden usar la misma carpeta."],
+["P","Si un contenedor usa volumen, ¿por qué los cambios en el HTML local se ven sin reiniciar?","Porque el contenedor lee directamente la carpeta del host","Porque Docker reconstruye la imagen","Porque nginx se reinicia solo","Porque el navegador lo cachea","La carpeta está enlazada, no copiada."],
+["R","¿Qué comando conecta un contenedor a una red al crearlo?","<code>docker run --network mi-red ...</code>","<code>docker run --join mi-red</code>","<code>docker network add</code>","<code>docker link</code>","Se indica con <code>--network</code> en el <code>run</code>."],
+["R","¿Qué tipo de red crea <code>docker network create mi-red</code> sin más opciones?","bridge","host","none","overlay público","El driver por defecto es bridge."],
+["R","¿Qué hace <code>-c 3</code> en <code>ping -c 3 mysql-db</code>?","Envía 3 paquetes","Usa 3 hilos","Cambia el puerto","Comprueba 3 redes","Limita el ping a 3 paquetes."],
+["R","¿Qué hace <code>MYSQL_DATABASE=colegio_db</code>?","Crea esa base de datos al iniciar el contenedor","Cambia la contraseña","Define el puerto","Crea un volumen","La imagen oficial de MySQL crea la base al arrancar."],
+["R","¿Qué permite una app Node para conectar a MySQL en una bridge personalizada?","Usar el nombre del contenedor como host","Usar siempre localhost","Usar una IP fija","Usar el puerto del host","El DNS interno resuelve nombres como <code>mysql-servidor</code>."],
+["R","¿Para qué sirve aislar la base de datos de la red pública?","Para que solo los servicios internos puedan acceder","Para acelerarla","Para evitar los volúmenes","Para no usar contraseña","Sin exponer puertos al exterior, queda protegida en la red interna."],
+["R","¿Por qué la red bridge personalizada es más segura que la por defecto?","Aísla los contenedores en una red privada y tú decides qué se conecta","Cifra el tráfico","Desactiva Docker","Elimina contraseñas","Solo se comunican los contenedores añadidos a esa red."]
+];
+const $=id=>document.getElementById(id),app=$("app");
+let sel="all",pool,n,score,pick,done,fails;
+const shuf=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+function menu(){
+ const c=k=>k=="all"?Q.length:Q.filter(q=>q[0]==k).length;
+ app.innerHTML=`<b>Elige tema</b><div class="chips">${["all",...Object.keys(T)].map(k=>`<button class="chip ${k==sel?"on":""}" onclick="sel='${k}';menu()">${k=="all"?"Todos":T[k]} (${c(k)})</button>`).join("")}</div>
+ <p class="sub">Responde, pulsa <b>Confirmar</b> y verás si acertaste y por qué.</p><button class="main" onclick="start()">Empezar</button>`}
+function start(list){pool=shuf(list||Q.filter(q=>sel=="all"||q[0]==sel));n=0;score=0;fails=[];show()}
 function show(){
-  const q=pool[i], opts=shuffle([q.c,...q.w]);
-  app.innerHTML=`<div class="card"><div class="meta"><span>Pregunta ${i+1} de ${pool.length}</span><span>${T[q.t]}</span></div>
-  <div class="bar"><i style="width:${i/pool.length*100}%"></i></div>
-  <div class="q">${q.q}</div>
-  ${opts.map(o=>`<button class="opt">${o}</button>`).join("")}
-  <div id="fb"></div></div>`;
-  document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>answer(b,q));
-}
-function answer(b,q){
-  const ok=b.textContent===q.c, s=byT[q.t]=byT[q.t]||[0,0];
-  s[1]++; if(ok){score++;s[0]++}else wrong.push(q);
-  document.querySelectorAll(".opt").forEach(o=>{o.disabled=true;if(o.textContent===q.c)o.classList.add("ok");else if(o===b)o.classList.add("ko")});
-  const last=i==pool.length-1;
-  $("#fb").innerHTML=`<div class="exp"><b>${ok?"¡Correcto!":"Incorrecto."}</b> ${q.e}</div>
-  <button class="btn" id="nx">${last?"Ver resultado":"Siguiente"}</button>`;
-  $("#nx").onclick=()=>{i++;last?end():show()};
+ const q=pool[n];pick=null;done=false;
+ q.o=shuf([2,3,4,5].map(i=>({t:q[i],ok:i==2})));
+ app.innerHTML=`<div class="meta"><span>${T[q[0]]}</span><span>${n+1} / ${pool.length}</span></div><div class="bar"><i style="width:${n/pool.length*100}%"></i></div>
+ <div class="q">${q[1]}</div>${q.o.map((o,i)=>`<button class="opt" id="o${i}" onclick="ch(${i})">${o.t}</button>`).join("")}
+ <div id="fb"></div><div class="row"><button class="main" id="go" disabled onclick="go()">Confirmar</button></div>`}
+function ch(i){if(done)return;pick=i;q4().o.forEach((_,j)=>$("o"+j).classList.toggle("sel",j==i));$("go").disabled=false}
+const q4=()=>pool[n];
+function go(){
+ const q=q4();
+ if(!done){
+  done=true;const ok=q.o[pick].ok;
+  q.o.forEach((o,j)=>{const b=$("o"+j);b.disabled=true;b.classList.remove("sel");if(o.ok)b.classList.add("ok");else if(j==pick)b.classList.add("ko")});
+  if(ok)score++;else fails.push(q);
+  const right=q.o.find(o=>o.ok).t;
+  $("fb").innerHTML=ok?`<div class="fb ok"><b>✅ ¡Correcto!</b>${q[6]}</div>`:`<div class="fb ko"><b>❌ Incorrecto</b>La respuesta correcta es: <b style="display:inline">${right}</b><br><br><b>¿Por qué?</b>${q[6]}</div>`;
+  $("go").textContent=n+1<pool.length?"Siguiente →":"Ver resultado";
+ }else{n++;n<pool.length?show():end()}
 }
 function end(){
-  const p=Math.round(score/pool.length*100);
-  app.innerHTML=`<div class="card"><p class="big ${p>=50?"good":""}">${score}/${pool.length}</p>
-  <p>${p}% de aciertos · ${p>=90?"¡Excelente!":p>=70?"Muy bien.":p>=50?"Aprobado, pero repasa los fallos.":"Toca repasar los apuntes."}</p>
-  ${Object.keys(byT).map(k=>`<div class="tb"><span>${T[k]}</span><b>${byT[k][0]}/${byT[k][1]}</b></div>`).join("")}</div>
-  ${wrong.length?`<div class="card"><b>Para repasar</b>${wrong.map(q=>`<div class="rev">${q.q}<b class="good">${q.c}</b><small>${q.e}</small></div>`).join("")}</div>`:""}
-  <div class="row"><button class="btn" id="re">Repetir</button><button class="btn sec" id="hm">Cambiar temas</button></div>`;
-  $("#re").onclick=start;$("#hm").onclick=home;
-}
-const BN={2:"binario",10:"decimal",16:"hexadecimal"};
-let cv={max:255,n:10,i:0,s:0,cur:null};
-const rnd=n=>Math.floor(Math.random()*(n+1));
-const fm=(v,b)=>{let s=v.toString(b).toUpperCase();if(b==2){while(s.length%4)s="0"+s;s=s.match(/.{1,4}/g).join(" ")}return s};
-function convHome(){
-  app.innerHTML=`<div class="card"><b>Conversión de bases</b><p class="sub">Pasa el número a las otras dos bases. Puedes escribir el binario con o sin espacios.</p>
-  <div class="row"><label>Nivel: <select id="lv"><option value="15">Fácil (0–15)</option><option value="255" selected>Medio (0–255)</option><option value="65535">Difícil (0–65535)</option></select></label>
-  <label>Ejercicios: <select id="cn"><option>10</option><option>20</option><option>30</option></select></label></div>
-  <div class="row" style="margin-top:14px"><button class="btn" id="cs">Empezar</button><button class="btn sec" id="cb">Volver</button></div></div>
-  <div class="card"><b>Chuleta</b><p class="sub" style="margin:6px 0 0">Hex: A=10, B=11, C=12, D=13, E=14, F=15. Pesos binarios: 128, 64, 32, 16, 8, 4, 2, 1. Cada dígito hexadecimal equivale a 4 bits.</p></div>`;
-  $("#cb").onclick=home;
-  $("#cs").onclick=()=>{cv={max:+$("#lv").value,n:+$("#cn").value,i:0,s:0,cur:null};convNext()};
-}
-function convNext(){
-  const v=1+rnd(cv.max-1), b=[2,10,16][rnd(2)], tg=[2,10,16].filter(x=>x!=b);
-  cv.cur={v,b,tg};
-  app.innerHTML=`<div class="card"><div class="meta"><span>Ejercicio ${cv.i+1} de ${cv.n}</span><span>Aciertos: ${cv.s}</span></div>
-  <div class="bar"><i style="width:${cv.i/cv.n*100}%"></i></div>
-  <div class="q">${fm(v,b)} <small style="color:var(--muted)">(${BN[b]})</small></div>
-  ${tg.map((x,k)=>`<p style="margin:10px 0 4px">Pásalo a ${BN[x]}:</p><input id="t${k}" autocomplete="off" autocapitalize="off" spellcheck="false">`).join("")}
-  <div id="fb" style="margin-top:14px"><button class="btn" id="ck">Comprobar</button></div></div>`;
-  $("#t0").focus();
-  $("#ck").onclick=convCheck;
-  app.onkeydown=e=>{if(e.key=="Enter"&&e.target.tagName=="INPUT"&&$("#ck"))$("#ck").click()};
-}
-function convCheck(){
-  const c=cv.cur;let all=true;
-  c.tg.forEach((x,k)=>{
-    const el=$("#t"+k), t=el.value.toLowerCase().replace(/\s/g,"").replace(/^0[xb]/,"");
-    const re={2:/^[01]+$/,10:/^\d+$/,16:/^[0-9a-f]+$/}[x];
-    const ok=re.test(t)&&parseInt(t,x)===c.v;
-    el.classList.add(ok?"ok":"ko");el.disabled=true;if(!ok)all=false;
-  });
-  if(all)cv.s++;
-  cv.i++;const last=cv.i==cv.n;
-  $("#fb").innerHTML=`<div class="exp"><b>${all?"¡Correcto!":"Revisa:"}</b> ${fm(c.v,2)} (bin) = ${c.v} (dec) = ${c.v.toString(16).toUpperCase()} (hex)</div><button class="btn" id="nx">${last?"Ver resultado":"Siguiente"}</button>`;
-  $("#nx").onclick=()=>last?convEnd():convNext();
-  $("#nx").focus();
-}
-function convEnd(){
-  const p=Math.round(cv.s/cv.n*100);
-  app.innerHTML=`<div class="card"><p class="big ${p>=50?"good":""}">${cv.s}/${cv.n}</p><p>${p}% de aciertos · ${p>=90?"¡Dominas las conversiones!":p>=60?"Bien, sigue practicando.":"Repasa los pesos binarios y la tabla hexadecimal."}</p></div>
-  <div class="row"><button class="btn" id="re">Repetir</button><button class="btn sec" id="hm">Volver al inicio</button></div>`;
-  $("#re").onclick=()=>{cv.i=0;cv.s=0;convNext()};$("#hm").onclick=home;
-}
-home();
-</script>
-</body>
-</html>
+ const p=Math.round(score/pool.length*100);
+ app.innerHTML=`<div class="score">${score} / ${pool.length}</div><p>${p}% de aciertos ${p>=90?"🏆":p>=50?"👍":"📚"}</p>
+ <div class="row"><button class="main" onclick="menu()">Elegir otro tema</button>${fails.length?`<button class="main" onclick="start(fails)">Repetir fallos (${fails.length})</button>`:""}</div>`}
+menu();
+</script></body></html>
